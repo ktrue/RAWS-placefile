@@ -12,7 +12,6 @@ Creates: decoded RAWS info and data:
    https://data-nifc.opendata.arcgis.com/datasets/nifc::public-view-interagency-remote-automatic-weather-stations-raws/about 
 	 (the feature server will be used for data query)
 				 This file is included by RAWS.php to generate the GRLeelX placefile
-				 
 
 Author: Ken True - webmaster@saratoga-weather.org
 
