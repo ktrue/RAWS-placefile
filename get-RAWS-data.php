@@ -1,15 +1,18 @@
 <?php
 #---------------------------------------------------------------------------
 /*
-Program: get-buoy-data.php
+Program: get-RAWS-data.php
 
 Purpose: generate data for RAWS.php to generate a GRLevelX placefile to display RAWS data
 
-Usage:   invoke as a cron job at 5 minute intervals in the same directory as buoys.php
+Usage:   invoke as a cron job at 5 minute intervals in the same directory as RAWS.php
 
 Creates: decoded RAWS info and data:
-           buoy-data-inc.php from https://www.ndbc.noaa.gov/data/latest_obs/latest_obs.txt
+           RAWS-data-inc.php from National Interagency Fire Center
+   https://data-nifc.opendata.arcgis.com/datasets/nifc::public-view-interagency-remote-automatic-weather-stations-raws/about 
+	 (the feature server will be used for data query)
 				 This file is included by RAWS.php to generate the GRLeelX placefile
+				 
 
 Author: Ken True - webmaster@saratoga-weather.org
 
