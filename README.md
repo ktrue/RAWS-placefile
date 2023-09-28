@@ -1,5 +1,5 @@
 # RAWS-placefile
-## GRLevelX placefile generator for weather data from NFIC Remote Automatic Weather Stations (RAWS),
+## GRLevelX placefile generator for weather data from NIFC Remote Automatic Weather Stations (RAWS),
 
 ## Purpose:
 
@@ -15,7 +15,7 @@ The *RAWS.php* script is to be accessed by including the website URL in the GRLe
 
 ### *get-RAWS-data.php*
 
-This script reads the GIS JSON data from [NFIC ESRI Feature server with RAWS data](https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/PublicView_RAWS/FeatureServer/1/) and creates the 
+This script reads the GIS JSON data from [NIFC ESRI Feature server with RAWS data](https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/PublicView_RAWS/FeatureServer/1/) and creates the 
 *RAWS-data-inc.php* file which contains the parsed and formatted RAWS data for each RAWS. 
 
 
@@ -45,8 +45,8 @@ Upload the following files in a directory under the document root of your websit
 
 - *get-RAWS-data.php*
 - *RAWS.php*
-- *RAWS-alerts.php*
-- *ahps-icons-sm.png*
+- *windbarbs-kt-white.png*
+- *RAWS-icons.png*
   
 Set up cron to run *get-RAWS-data.php* like:
 ```
@@ -109,7 +109,7 @@ End:
 
 ## Sample display in GRLevel3
 
-
+![RAWS-placefile](https://github.com/ktrue/RAWS-placefile/assets/17507343/57e686a0-7b8e-4ca6-881b-7af24c02a97d)
 
 ## Acknowledgements
 
