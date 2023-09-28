@@ -45,8 +45,8 @@ Upload the following files in a directory under the document root of your websit
 
 - *get-RAWS-data.php*
 - *RAWS.php*
-- *RAWS-alerts.php*
-- *RAWS-icons-sm.png*
+- *windbarbs-kt-white.png*
+- *RAWS-icons.png*
   
 Set up cron to run *get-RAWS-data.php* like:
 ```
