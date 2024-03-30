@@ -36,6 +36,7 @@ Copyright (C) 2023  Ken True - webmaster@saratoga-weather.org
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Version 1.00 - 28-Sep-2023 - initial release
+Version 1.01 - 30-Mar-2024 - added display of get-RAWS-data error message
 
 */
 #---------------------------------------------------------------------------
@@ -45,7 +46,7 @@ date_default_timezone_set('UTC');
 $timeFormat = "l, M d";  // time display for date() in popup
 #-----------end of settings-------------------------------------------------
 
-$Version = "RAWS.php V1.00 - 28-Sep-2023 - webmaster@saratoga-weather.org";
+$Version = "RAWS.php V1.01 - 30-Mar-2024 - webmaster@saratoga-weather.org";
 global $Version,$timeFormat;
 
 // self downloader
@@ -111,6 +112,22 @@ Sample entry annotated:
 */
 #file_put_contents('debug.txt',"?version=1.5&lat=$latitude&lon=$longitude\n");
 gen_header();
+
+if(isset($RAWSData['error'])) {
+
+	 $offset = -15;
+	 print  "; Error message in RAWSData\n";
+	 print  "Object: $latitude,$longitude\n";
+	 print  "Color: 255 255 255\n";
+	 $errLines = explode("\n",$RAWSData['error']);
+	 foreach ($errLines as $i => $error) {
+	   print  "Text: 1, $offset, 1, \"$error\"\n";
+		 $offset = $offset-15;
+	 }
+	 print  "End:\n";
+	 return;
+	
+}
 
 foreach ($RAWSData as $idx => $M) {
 	
