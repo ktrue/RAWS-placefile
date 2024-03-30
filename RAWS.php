@@ -115,7 +115,7 @@ gen_header();
 
 if(isset($RAWSData['error'])) {
 
-	 $offset = -15;
+	 $offset = -25;
 	 print  "; Error message in RAWSData\n";
 	 print  "Object: $latitude,$longitude\n";
 	 print  "Color: 255 255 255\n";
