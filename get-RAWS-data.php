@@ -39,9 +39,10 @@ Copyright (C) 2023  Ken True - webmaster@saratoga-weather.org
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Version 1.00 - 28-Sep-2023 - initial release
+Version 1.01 - 29-Mar-2024 - added age of observation diagnostics
 
 */
-$Version = "get-RAWS-data.php V1.00 - 28-Sep-2023 - webmaster@saratoga-weather.org";
+$Version = "get-RAWS-data.php V1.01 - 29-Mar-2024 - webmaster@saratoga-weather.org";
 #---------------------------------------------------------------------------
 $maxAge = 2*(3600)+300;  # maximum age of observations to display in seconds 2h5m
 #-----------settings (don't change)--------------------------------------------------------
@@ -177,13 +178,19 @@ if (!isset($JSON['features'][0])) {
 */
 $RAWSData = array();
 $now = time();
+$earliestTS = $now;
+$latestTS = 0;
+$skippedStale = 0;
+print ".. processing ".count($JSON['features'])." RAWS entries returned.\n";
 foreach ($JSON['features'] as $i => $J) {
 	$D = array();
 	$V = $J['attributes'];
 	
-	$utctime  = $V['ObservedDate']/1000;
+	$utctime  = intval($V['ObservedDate']/1000);
+	if($utctime < $earliestTS) {$earliestTS = $utctime;}
+	if($utctime > $latestTS)   {$latestTS = $utctime;}
 	$age = $now - $utctime;
-	if($age > $maxAge) {continue;} # only observations within 1 hour are used.
+	if($age > $maxAge) {$skippedStale++; continue;} # only observations within 1 hour are used.
 	if($V['AirTempStandPlace'] == "NO DATA" or $V['WindSpeedMPH'] == "NO DATA") {continue;}
 	
 	if($V['Status'] !== 'A') { continue; }
@@ -244,6 +251,13 @@ foreach ($JSON['features'] as $i => $J) {
 	unset($D);
 }
 ksort($RAWSData);
+
+print ".. Summary:   $skippedStale stations skipped with stale data (older than $maxAge seconds)\n";
+print ".. Observations time spreads:\n";
+print "   Now      time: ".gmdate('r',$now)." ($now)\n";
+print "   Earliest time: ".gmdate('r',$earliestTS)." ($earliestTS)\n";
+print "   Latest   time: ".gmdate('r',$latestTS)." ($latestTS)\n";
+print "   ".count($RAWSData)." observations that are <= $maxAge seconds old.\n";
 
 $success = file_put_contents($dataFile,
 "<?php\n# RAWS Data updated " . gmdate('r')."\n".
