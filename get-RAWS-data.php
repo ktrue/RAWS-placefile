@@ -40,9 +40,10 @@ Copyright (C) 2023  Ken True - webmaster@saratoga-weather.org
 
 Version 1.00 - 28-Sep-2023 - initial release
 Version 1.01 - 29-Mar-2024 - added age of observation diagnostics
+Version 1.02 - 30-Mar-2024 - added 'error' entry to RAWSData if problem exists
 
 */
-$Version = "get-RAWS-data.php V1.01 - 29-Mar-2024 - webmaster@saratoga-weather.org";
+$Version = "get-RAWS-data.php V1.02 - 30-Mar-2024 - webmaster@saratoga-weather.org";
 #---------------------------------------------------------------------------
 $maxAge = 2*(3600)+300;  # maximum age of observations to display in seconds 2h5m
 #-----------settings (don't change)--------------------------------------------------------
@@ -259,6 +260,15 @@ print "   Earliest time: ".gmdate('r',$earliestTS)." ($earliestTS)\n";
 print "   Latest   time: ".gmdate('r',$latestTS)." ($latestTS)\n";
 print "   ".count($RAWSData)." observations that are <= $maxAge seconds old.\n";
 
+$nRAWS = count($RAWSData);
+
+if(count($RAWSData) < 1) {
+	$err = "RAWS Observations not available\n";
+	$err .= "Older than $maxAge seconds\n";
+	$err .= "Latest obs ".gmdate('d-M-Y H:i',$latestTS)."Z at time ".gmdate('d-M-Y H:i',$now)."Z";
+	$RAWSData['error'] = $err;
+}
+
 $success = file_put_contents($dataFile,
 "<?php\n# RAWS Data updated " . gmdate('r')."\n".
 "# by $Version\n".
@@ -266,7 +276,7 @@ $success = file_put_contents($dataFile,
 "\$RAWSData = ".var_export($RAWSData,true).";\n"
 );
 if($success) {
-	print ".. saved $dataFile with ".count($RAWSData). " RAWS entries.\n";
+	print ".. saved $dataFile with $nRAWS RAWS entries.\n";
 } else {
 	print "-- unable to save $dataFile\n";
 }
